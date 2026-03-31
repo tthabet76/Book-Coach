@@ -1,0 +1,17 @@
+{
+  "_instructions": "Copy this file to config.json and fill in your values. Never commit config.json to Git.",
+
+  "gemini_api_key": "YOUR_GEMINI_API_KEY_HERE",
+  "discord_webhook": "YOUR_DISCORD_WEBHOOK_URL_HERE",
+
+  "voice": "en-US-AriaNeural",
+
+  "goodreads_csv": "",
+  "_goodreads_note": "RECOMMENDED: Export your Goodreads library and paste the path here. See README for why this adds value. Leave empty to use my_books.csv instead.",
+
+  "goodreads_shelf": "read",
+  "_goodreads_shelf_note": "Which shelf to use: 'read', 'to-read', or 'currently-reading'",
+
+  "delivery_hour": 9,
+  "_delivery_note": "Hour (0-23) for daily delivery. Used when setting up Task Scheduler / cron."
+}

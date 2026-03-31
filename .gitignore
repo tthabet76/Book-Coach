@@ -1,0 +1,8 @@
+config.json
+my_context.md
+my_books.csv
+state.json
+books_done.json
+__pycache__/
+*.pyc
+*.mp3
