@@ -17,7 +17,7 @@ def _voice() -> str:
         return "en-US-AriaNeural"
 
 
-def text_to_mp3(text: str, output_path: Path | None = None) -> Path:
+def text_to_mp3(text: str, output_path: str | Path | None = None) -> Path:
     """Convert text to MP3. Returns path to the generated file."""
     import edge_tts
 
@@ -25,6 +25,8 @@ def text_to_mp3(text: str, output_path: Path | None = None) -> Path:
         tmp = tempfile.NamedTemporaryFile(suffix=".mp3", delete=False)
         output_path = Path(tmp.name)
         tmp.close()
+    else:
+        output_path = Path(output_path)
 
     clean = _strip_markdown(text)
 
@@ -40,6 +42,7 @@ def _strip_markdown(text: str) -> str:
     text = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
     text = re.sub(r"\*(.+?)\*",     r"\1", text)
     text = re.sub(r"#{1,6}\s+",     "",    text)
-    text = re.sub(r"[📘💼🔚🌐🔗💡🌍💪🧠1️⃣2️⃣3️⃣4️⃣5️⃣]", "", text)
+    for _e in ["🧠","📘","💼","🔚","🌐","🔗","💡","🌍","💪","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣"]:
+        text = text.replace(_e, "")
     text = re.sub(r"\[(.+?)\]",     r"\1", text)
     return text.strip()

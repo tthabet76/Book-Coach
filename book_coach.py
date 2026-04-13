@@ -16,6 +16,7 @@ CLI:
 """
 
 import argparse
+import io
 import sys
 import tempfile
 from datetime import date
@@ -26,6 +27,10 @@ import discord_post as dp
 import state as st
 import summarizer as sm
 import tts
+
+# Fix Unicode output on Windows terminals
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 
 # ── Selection flow ─────────────────────────────────────────────────────────────
@@ -112,6 +117,8 @@ def do_daily():
         print("[daily] Gemini failed to generate content.", file=sys.stderr)
         sys.exit(1)
 
+    _append_to_md(book, part, text)
+
     print(f"[daily] Converting to audio ({tts._voice()}) ...")
     with tempfile.TemporaryDirectory() as tmpdir:
         mp3_path = Path(tmpdir) / f"part{part}.mp3"
@@ -143,6 +150,31 @@ def do_daily():
     print(f"[daily] Part {part}/7 delivered.")
 
 
+def _append_to_md(book: dict, part: int, text: str):
+    """Append today's part to the book's running markdown file in summaries/."""
+    summaries_dir = Path(__file__).parent / "summaries"
+    summaries_dir.mkdir(exist_ok=True)
+    safe = "".join(c for c in book["title"] if c.isalnum() or c in " -_")[:60].strip()
+    md_path = summaries_dir / f"{safe}.md"
+    day_label = _day_label(part)
+    header = f"
+
+---
+
+## {day_label} — {date.today().isoformat()}
+
+"
+    if not md_path.exists():
+        intro = f"# {book['title']}
+**Author:** {book['author']}
+"
+        md_path.write_text(intro + header + text, encoding="utf-8")
+    else:
+        with open(md_path, "a", encoding="utf-8") as f:
+            f.write(header + text)
+    print(f"[daily] Saved to summaries/{safe}.md")
+
+
 def _day_label(part: int) -> str:
     return {
         1: "Day 1 of 5 — Monday",
@@ -167,6 +199,8 @@ def do_status():
         print(f"Part       : {state['current_part']}/7")
         print(f"Week start : {state['week_start']}")
     print(f"Books done : {len(done)}")
+    if done:
+        print(f"Last done  : {done[-1]['title']} ({done[-1].get('completed_date', '?')})")
 
 
 def do_reset():

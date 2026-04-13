@@ -20,7 +20,7 @@ def _webhook_url() -> str:
 
 def send_text(text: str) -> bool:
     url = _webhook_url()
-    for chunk in _split(text, 1990):
+    for chunk in _split_message(text, 1990):
         body = json.dumps({"content": chunk}).encode()
         req  = urllib.request.Request(
             url, data=body,
@@ -69,7 +69,7 @@ def send_audio(caption: str, mp3_path: Path, filename: str) -> bool:
         return False
 
 
-def _split(text: str, limit: int) -> list[str]:
+def _split_message(text: str, limit: int) -> list[str]:
     if len(text) <= limit:
         return [text]
     chunks = []

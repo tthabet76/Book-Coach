@@ -115,12 +115,13 @@ CORE IDEAS TO COVER: {', '.join(part_info['core_ideas'])}
 READER'S PERSONAL CONTEXT (use this only for the final personalization section):
 {context}
 
-CRITICAL INSTRUCTIONS:
-- 80–90% of the content must be NEW information from the book: its specific arguments, stories, data, and examples.
-- Use the reader's personal context ONLY in section 4 to bridge the book's ideas to their world.
-- Do NOT let the personal context dominate or replace the book's actual content.
+CRITICAL WRITING RULES:
+1. 80–90% of the content must be the book's actual content: specific people, places, events, arguments, and data.
+2. NEVER use vague phrases like "the author describes". Always use real names, exact places, precise dates, actual numbers.
+3. Include at least ONE cinematic scene — reconstruct a specific moment in vivid, present-tense detail.
+4. Mirror the author's voice and rhetorical force — do not flatten striking arguments into neutral sentences.
 
-Write a rich, narrative coaching session (550–700 words) with EXACTLY these sections:
+Write a rich, narrative coaching session (1300–1500 words) with EXACTLY these sections:
 
 📘 {book['title']} (Day {part_num} of 5)
 by {book['author']}
@@ -153,7 +154,7 @@ WEEKLY OUTLINE:
 READER'S PERSONAL CONTEXT:
 {context}
 
-Write a rich holistic synthesis (600–750 words):
+Write a rich holistic synthesis (1300–1500 words):
 
 📘 {book['title']} — Saturday: The Full Picture
 by {book['author']}
@@ -185,7 +186,7 @@ BOOK: {book['title']} by {book['author']} — Sunday: Retention Check
 QUESTIONS AND ANSWERS:
 {q_text}
 
-Write an engaging retention session (400–500 words):
+Write an engaging retention session (900–1000 words):
 
 📘 {book['title']} — Sunday: Retention Check
 by {book['author']}
@@ -196,4 +197,4 @@ by {book['author']}
 💪 **What You Now Own**
 [A brief energizing closing — what mental models the reader permanently owns from this book]"""
 
-    return _call_gemini(prompt, max_tokens=2000)
+    return _call_gemini(prompt, max_tokens=3500)
